@@ -8,6 +8,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
+import face_recognition
 
 video_path = r'C:\Users\daoui\Documents\Yasmine\Stage NR 2025\Projet\Lilo_20250527_tr01.face.avi'
 
@@ -29,11 +30,22 @@ else:
 cap.release()
 
 # Fonction features
-def extract_features_from_frame(frame):
+
+def extract_face_embedding(frame):
+    # Trouve les emplacements des visages
+    face_locations = face_recognition.face_locations(frame)
+    if len(face_locations) == 0:
+        # Pas de visage détecté, retourner un vecteur nul ou une valeur par défaut
+        return np.zeros(128)
+    # Prend le premier visage détecté
+    face_encodings = face_recognition.face_encodings(frame, face_locations)
+    return face_encodings[0]  # vecteur 128D
+
+'''def extract_features_from_frame(frame):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     hist = cv2.calcHist([hsv], [0, 1, 2], None, [8, 8, 8], [0, 180, 0, 256, 0, 256])
     hist = cv2.normalize(hist, hist).flatten()
-    return hist
+    return hist'''
 
 # Génération labels
 frames_to_keep = {}
