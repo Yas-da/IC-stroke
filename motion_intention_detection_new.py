@@ -3,6 +3,11 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import ConfusionMatrixDisplay
+import seaborn as sns
+from sklearn.metrics import ConfusionMatrixDisplay
+
 video_path = r'C:\Users\daoui\Documents\Yasmine\Stage NR 2025\Projet\Lilo_20250527_tr01.face.avi'
 
 import os
@@ -87,12 +92,25 @@ print("[INFO] Confusion Matrix:")
 print(confusion_matrix(y_test, y_pred))
 
 #figure
-plt.figure(figsize=(15, 3))
-plt.plot(frame_indices_test, y_test, label='Ground Truth', drawstyle='steps-post')
-plt.plot(frame_indices_test, y_pred, label='Prediction', drawstyle='steps-post', alpha=0.7)
+# Matrice de confusion
+cm = confusion_matrix(y_test, y_pred)
+
+plt.figure(figsize=(5,4))
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=['No Intention', 'Intention'], yticklabels=['No Intention', 'Intention'])
+plt.xlabel('Predicted')
+plt.ylabel('True')
+plt.title('Confusion Matrix')
+plt.show()
+
+# Courbes plus claires
+plt.figure(figsize=(15, 4))
+plt.fill_between(frame_indices_test, 0, y_test, step='post', color='blue', alpha=0.3, label='Ground Truth')
+plt.fill_between(frame_indices_test, 0, y_pred, step='post', color='orange', alpha=0.3, label='Prediction')
+plt.plot(frame_indices_test, y_test, drawstyle='steps-post', color='blue')
+plt.plot(frame_indices_test, y_pred, drawstyle='steps-post', color='orange')
 plt.xlabel('Frame Index')
-plt.ylabel('Intention (1) / No Intention (0)')
-plt.title('Prédiction intention motrice sur frames sélectionnées')
+plt.ylabel('Class')
+plt.title('Ground Truth vs Prediction over Frames')
 plt.legend()
 plt.tight_layout()
 plt.show()
