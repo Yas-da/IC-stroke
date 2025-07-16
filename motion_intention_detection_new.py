@@ -108,9 +108,7 @@ for name, clf in models.items():
     }
     print(report)
 
-# 🔷 Visualisation
-
-# Matrices de confusion
+# Confusion matrix
 fig, axes = plt.subplots(1, len(models), figsize=(5*len(models), 4))
 if len(models) == 1:
     axes = [axes]  # pour compatibilité
