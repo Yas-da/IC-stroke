@@ -30,9 +30,11 @@ else:
 cap.release()
 
 # Fonction features
+def extract_features_from_frame_new (frame):
+    face
+
 
 def extract_face_embedding(frame):
-    # Trouve les emplacements des visages
     face_locations = face_recognition.face_locations(frame)
     if len(face_locations) == 0:
         # Pas de visage détecté, retourner un vecteur nul ou une valeur par défaut
